@@ -1,0 +1,19 @@
+FROM node:latest
+
+WORKDIR /frontend/
+COPY web/ .
+
+RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
+RUN cnpm install
+RUN npm run build
+
+FROM nginx:alpine
+LABEL MAINTAINER="lancezhu2937@gmail.com"
+
+COPY .docker-compose/nginx/conf.d/online-exam.conf /etc/nginx/conf.d/online-exam.conf
+COPY --from=0 /frontend/dist /usr/share/nginx/html
+RUN cat /etc/nginx/nginx.conf
+RUN cat /etc/nginx/conf.d/online-exam.conf
+RUN ls -al /usr/share/nginx/html
+
+CMD ["nginx", "-g", "daemon off;"]

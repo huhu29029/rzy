@@ -1,0 +1,28 @@
+FROM golang:alpine
+
+ENV GO111MODULE=on
+ENV GOPROXY=https://goproxy.cn,direct
+WORKDIR /backend
+COPY server/ ./
+
+RUN ls -al
+RUN cat ./config.yaml
+RUN cat ./config-dev.yaml
+RUN cat ./config-prod.yaml
+
+RUN go build -o server .
+
+FROM alpine:latest
+LABEL MAINTAINER="lancezhu2937@gmail.com"
+
+WORKDIR /backend
+
+COPY --from=0 /backend/server ./
+COPY --from=0 /backend/config.yaml ./
+COPY --from=0 /backend/config-dev.yaml ./
+COPY --from=0 /backend/config-prod.yaml ./
+COPY --from=0 /backend/kt ./kt
+
+EXPOSE 5000
+
+ENTRYPOINT ./server

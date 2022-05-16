@@ -1,0 +1,1499 @@
+basePath: /api
+definitions:
+  model.Chapters:
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+  model.ExaFileUploadAndDownload:
+    properties:
+      id:
+        type: integer
+      key:
+        type: string
+      name:
+        type: string
+      tag:
+        type: string
+      url:
+        type: string
+    type: object
+  model.ExamHistory:
+    properties:
+      endTime:
+        type: string
+      examId:
+        type: integer
+      examTitle:
+        type: string
+      startTime:
+        type: string
+    type: object
+  model.Exams:
+    properties:
+      id:
+        type: integer
+      questions:
+        items:
+          $ref: '#/definitions/model.Questions'
+        type: array
+      title:
+        type: string
+      userId:
+        type: integer
+    type: object
+  model.QuestionHistory:
+    properties:
+      endTime:
+        type: string
+      id:
+        type: integer
+      questionId:
+        type: integer
+      questionResult:
+        $ref: '#/definitions/model.QuestionResult'
+      startTime:
+        type: string
+    type: object
+  model.QuestionOptionResult:
+    properties:
+      isChoosed:
+        type: boolean
+      isRight:
+        type: boolean
+      title:
+        type: string
+    type: object
+  model.QuestionOptions:
+    properties:
+      id:
+        type: integer
+      isRight:
+        type: boolean
+      title:
+        type: string
+    type: object
+  model.QuestionResult:
+    properties:
+      analysis:
+        type: string
+      isRight:
+        type: boolean
+      options:
+        items:
+          $ref: '#/definitions/model.QuestionOptionResult'
+        type: array
+      title:
+        type: string
+      type:
+        type: integer
+    type: object
+  model.Questions:
+    properties:
+      analysis:
+        type: string
+      chapterId:
+        type: integer
+      id:
+        type: integer
+      options:
+        items:
+          $ref: '#/definitions/model.QuestionOptions'
+        type: array
+      tags:
+        items:
+          $ref: '#/definitions/model.Tags'
+        type: array
+      title:
+        type: string
+      type:
+        type: integer
+      userId:
+        type: integer
+    type: object
+  model.SysAuthority:
+    properties:
+      authorityId:
+        type: integer
+      authorityName:
+        type: string
+      createdAt:
+        type: string
+      defaultRouter:
+        type: string
+      deletedAt:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  model.SysUser:
+    properties:
+      authority:
+        $ref: '#/definitions/model.SysAuthority'
+      authorityId:
+        type: integer
+      headerImg:
+        type: string
+      id:
+        type: integer
+      nickName:
+        type: string
+      userName:
+        type: string
+      uuid:
+        type: string
+    type: object
+  model.Tags:
+    properties:
+      id:
+        type: integer
+      layer1:
+        type: string
+      layer2:
+        type: string
+      layer3:
+        type: string
+      layer4:
+        type: string
+    type: object
+  model.XAPIData:
+    properties:
+      actor:
+        $ref: '#/definitions/model.XActor'
+      authority:
+        type: object
+      context:
+        $ref: '#/definitions/model.XContext'
+      object:
+        type: integer
+      result:
+        type: object
+      timestamp:
+        type: string
+      verb:
+        type: integer
+    type: object
+  model.XActor:
+    properties:
+      uuid:
+        type: string
+    type: object
+  model.XContext:
+    properties:
+      device:
+        type: string
+      ip:
+        type: string
+    type: object
+  request.AddQuestionOption:
+    properties:
+      isRight:
+        type: boolean
+      title:
+        type: string
+    type: object
+  request.AddQuestionRequest:
+    properties:
+      analysis:
+        type: string
+      chapterId:
+        type: integer
+      options:
+        items:
+          $ref: '#/definitions/request.AddQuestionOption'
+        type: array
+      tags:
+        items:
+          type: integer
+        type: array
+      title:
+        type: string
+      type:
+        type: integer
+    type: object
+  request.Answer:
+    properties:
+      endTime:
+        type: string
+      options:
+        items:
+          type: integer
+        type: array
+      questionId:
+        type: integer
+      startTime:
+        type: string
+    type: object
+  request.CasbinInReceive:
+    properties:
+      authorityId:
+        type: string
+      casbinInfos:
+        items:
+          $ref: '#/definitions/request.CasbinInfo'
+        type: array
+    type: object
+  request.CasbinInfo:
+    properties:
+      method:
+        type: string
+      path:
+        type: string
+    type: object
+  request.ChangePasswordStruct:
+    properties:
+      newPassword:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  request.EditQuestionOption:
+    properties:
+      id:
+        type: integer
+      isRight:
+        type: boolean
+      questionId:
+        type: integer
+      title:
+        type: string
+    type: object
+  request.EditQuestionRequest:
+    properties:
+      analysis:
+        type: string
+      chapterId:
+        type: integer
+      options:
+        items:
+          $ref: '#/definitions/request.EditQuestionOption'
+        type: array
+      tags:
+        items:
+          type: integer
+        type: array
+      title:
+        type: string
+      type:
+        type: integer
+    type: object
+  request.Exam:
+    properties:
+      id:
+        type: integer
+      questions:
+        items:
+          $ref: '#/definitions/request.Question'
+        type: array
+      title:
+        type: string
+    type: object
+  request.ExamAnswer:
+    properties:
+      endTime:
+        type: string
+      examId:
+        type: integer
+      questions:
+        items:
+          $ref: '#/definitions/request.ExamAnswerQuestion'
+        type: array
+      startTime:
+        type: string
+    type: object
+  request.ExamAnswerQuestion:
+    properties:
+      id:
+        type: integer
+      options:
+        items:
+          type: integer
+        type: array
+    type: object
+  request.ExamReq:
+    properties:
+      questionIDs:
+        items:
+          type: integer
+        type: array
+      title:
+        type: string
+    type: object
+  request.GetQuestionByChaptersRequest:
+    properties:
+      chapterIds:
+        items:
+          type: integer
+        type: array
+    type: object
+  request.InitDB:
+    properties:
+      dbName:
+        type: string
+      host:
+        type: string
+      password:
+        type: string
+      port:
+        type: string
+      userName:
+        type: string
+    required:
+    - dbName
+    - userName
+    type: object
+  request.Login:
+    properties:
+      captcha:
+        type: string
+      captchaId:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  request.PageInfo:
+    properties:
+      page:
+        type: integer
+      pageSize:
+        type: integer
+    type: object
+  request.Question:
+    properties:
+      id:
+        type: integer
+      options:
+        items:
+          $ref: '#/definitions/request.QuestionOption'
+        type: array
+      title:
+        type: string
+      type:
+        type: integer
+    type: object
+  request.QuestionOption:
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+  response.AddQuestionResponse:
+    properties:
+      question:
+        $ref: '#/definitions/model.Questions'
+    type: object
+  response.DelQuestionFromQuestionBook:
+    properties:
+      question:
+        type: object
+    type: object
+  response.DelQuestionResponse:
+    properties:
+      question:
+        type: object
+    type: object
+  response.ExamResponse:
+    properties:
+      exam:
+        $ref: '#/definitions/request.Exam'
+    type: object
+  response.ExamResult:
+    properties:
+      endTime:
+        type: string
+      id:
+        type: integer
+      questions:
+        items:
+          $ref: '#/definitions/model.QuestionResult'
+        type: array
+      score:
+        type: integer
+      startTime:
+        type: string
+      title:
+        type: string
+      totalScore:
+        type: integer
+    type: object
+  response.ExamResultResponse:
+    properties:
+      result:
+        $ref: '#/definitions/response.ExamResult'
+    type: object
+  response.GetExamHistoryResponse:
+    properties:
+      examHistory:
+        items:
+          $ref: '#/definitions/model.ExamHistory'
+        type: array
+      total:
+        type: integer
+    type: object
+  response.GetExamsResponse:
+    properties:
+      exams:
+        items:
+          $ref: '#/definitions/model.Exams'
+        type: array
+      total:
+        type: integer
+    type: object
+  response.GetQuestionHistoryResponse:
+    properties:
+      questionHistory:
+        items:
+          $ref: '#/definitions/model.QuestionHistory'
+        type: array
+      total:
+        type: integer
+    type: object
+  response.GetQuestions2NiepanResponse:
+    properties:
+      questions:
+        items:
+          $ref: '#/definitions/model.Questions'
+        type: array
+      total:
+        type: integer
+    type: object
+  response.GetQuestionsResponse:
+    properties:
+      questions:
+        items:
+          $ref: '#/definitions/model.Questions'
+        type: array
+      total:
+        type: integer
+    type: object
+  response.QuestionResultResponse:
+    properties:
+      result:
+        $ref: '#/definitions/model.QuestionResult'
+    type: object
+  response.RandomQuestionResponse:
+    properties:
+      question:
+        $ref: '#/definitions/model.Questions'
+    type: object
+  response.Response:
+    properties:
+      code:
+        type: integer
+      data:
+        type: object
+      msg:
+        type: string
+    type: object
+  response.SubmitExamResponse:
+    properties:
+      id:
+        type: integer
+    type: object
+  v1.GetChaptersResponse:
+    properties:
+      chapters:
+        items:
+          $ref: '#/definitions/model.Chapters'
+        type: array
+    type: object
+  v1.GetTagsResponse:
+    properties:
+      tags:
+        items:
+          $ref: '#/definitions/model.Tags'
+        type: array
+    type: object
+info:
+  contact: {}
+  description: online exam APIs
+  title: online-exam API
+  version: 0.0.1
+paths:
+  /admin/exams:
+    get:
+      parameters:
+      - description: 所在页面 默认值：1
+        in: query
+        name: page
+        type: string
+      - description: 分页大小 默认值：10
+        in: query
+        name: size
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: response.GetExamsResponse}'
+          schema:
+            $ref: '#/definitions/response.GetExamsResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 查询管理员所属试卷
+      tags:
+      - Admin
+  /admin/exams/exam:
+    post:
+      parameters:
+      - description: 题目id列表
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.ExamReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: response.ExamResponse}'
+          schema:
+            $ref: '#/definitions/response.ExamResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建试卷
+      tags:
+      - Admin
+  /admin/exams/exam/:id:
+    delete:
+      parameters:
+      - description: 试卷id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: response.ExamResponse}'
+          schema:
+            $ref: '#/definitions/response.ExamResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除试卷
+      tags:
+      - Admin
+    put:
+      parameters:
+      - description: 试卷id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 试卷id
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.ExamReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: response.ExamResponse}'
+          schema:
+            $ref: '#/definitions/response.ExamResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 编辑试卷
+      tags:
+      - Admin
+  /admin/questions:
+    get:
+      parameters:
+      - description: 所在页面 默认值：1
+        in: query
+        name: page
+        type: string
+      - description: 分页大小 默认值：10
+        in: query
+        name: size
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: response.GetQuestionsResponse}'
+          schema:
+            $ref: '#/definitions/response.GetQuestionsResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 查询所有题目
+      tags:
+      - Admin
+    post:
+      parameters:
+      - description: 问题
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.AddQuestionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: response.AddQuestionResponse}'
+          schema:
+            $ref: '#/definitions/response.AddQuestionResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 添加新问题
+      tags:
+      - Admin
+  /admin/questions/:id:
+    delete:
+      parameters:
+      - description: 问题id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: response.DelQuestionResponse}'
+          schema:
+            $ref: '#/definitions/response.DelQuestionResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除问题
+      tags:
+      - Admin
+    put:
+      parameters:
+      - description: 问题id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 问题
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.EditQuestionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: response.AddQuestionResponse}'
+          schema:
+            $ref: '#/definitions/response.AddQuestionResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 编辑问题
+      tags:
+      - Admin
+  /admin/users:
+    get:
+      parameters:
+      - description: 所在页面 默认值：1
+        in: query
+        name: page
+        type: string
+      - description: 分页大小 默认值：10
+        in: query
+        name: size
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"登陆成功"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: manage users
+      tags:
+      - Admin
+  /admin/users/:id/exams:
+    get:
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 所在页面 默认值：1
+        in: query
+        name: page
+        type: string
+      - description: 分页大小 默认值：10
+        in: query
+        name: size
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'model.Response{data: response.GetExamHistoryResponse}'
+          schema:
+            $ref: '#/definitions/response.GetExamHistoryResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: user exam history
+      tags:
+      - Admin
+  /admin/users/:id/questions:
+    get:
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 所在页面 默认值：1
+        in: query
+        name: page
+        type: string
+      - description: 分页大小 默认值：10
+        in: query
+        name: size
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"登陆成功"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: user question history
+      tags:
+      - Admin
+  /base/captcha:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"验证码获取成功"}'
+          schema:
+            type: string
+      summary: 生成验证码
+      tags:
+      - Base
+  /base/login:
+    post:
+      parameters:
+      - description: 用户名, 密码, 验证码
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"登陆成功"}'
+          schema:
+            type: string
+      summary: 用户登录
+      tags:
+      - Base
+  /casbin/UpdateCasbin:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 权限id, 权限模型列表
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.CasbinInReceive'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"更新成功"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 更新角色api权限
+      tags:
+      - Casbin
+  /casbin/getPolicyPathByAuthorityId:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 权限id, 权限模型列表
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.CasbinInReceive'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"获取成功"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 获取权限列表
+      tags:
+      - Casbin
+  /chapters:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: GetChaptersResponse}'
+          schema:
+            $ref: '#/definitions/v1.GetChaptersResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取所有章节
+      tags:
+      - Chapters
+  /email/emailTest:
+    post:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"发送成功"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 发送测试邮件
+      tags:
+      - System
+  /exams:
+    get:
+      parameters:
+      - description: 所在页面 默认值：1
+        in: query
+        name: page
+        type: string
+      - description: 分页大小 默认值：10
+        in: query
+        name: size
+        type: string
+      - description: 所属用户 id
+        in: query
+        name: userId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: response.GetExamsResponse}'
+          schema:
+            $ref: '#/definitions/response.GetExamsResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 查询所有试卷
+      tags:
+      - Exam
+  /exams/answer/:id:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 答卷id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: response.ExamResultResponse}'
+          schema:
+            $ref: '#/definitions/response.ExamResultResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 查询试卷答题情况
+      tags:
+      - Exam
+  /exams/exam/:id:
+    get:
+      parameters:
+      - description: 试卷id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: response.ExamResponse}'
+          schema:
+            $ref: '#/definitions/response.ExamResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 查询某个试卷
+      tags:
+      - Exam
+  /exams/random:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: request.Exam}'
+          schema:
+            $ref: '#/definitions/request.Exam'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取随机试卷
+      tags:
+      - Exam
+  /exams/submit:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 试卷答案
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.ExamAnswer'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.SubmitExamResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 提交试卷
+      tags:
+      - Exam
+  /fileUploadAndDownload/breakpointContinue:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: an example for breakpoint resume, 断点续传示例
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"切片创建成功"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 断点续传到服务器
+      tags:
+      - ExaFileUploadAndDownload
+  /fileUploadAndDownload/deleteFile:
+    post:
+      parameters:
+      - description: 传入文件里面id即可
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.ExaFileUploadAndDownload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"删除成功"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 删除文件
+      tags:
+      - ExaFileUploadAndDownload
+  /fileUploadAndDownload/findFile:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: 上传文件完成
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"file uploaded, 文件创建成功"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 创建文件
+      tags:
+      - ExaFileUploadAndDownload
+  /fileUploadAndDownload/getFileList:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 页码, 每页大小
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.PageInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"获取成功"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 分页文件列表
+      tags:
+      - ExaFileUploadAndDownload
+  /fileUploadAndDownload/removeChunk:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: 删除缓存切片
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"缓存切片删除成功"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 删除切片
+      tags:
+      - ExaFileUploadAndDownload
+  /fileUploadAndDownload/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: 上传文件示例
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"上传成功"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 上传文件示例
+      tags:
+      - ExaFileUploadAndDownload
+  /init/initdb:
+    post:
+      parameters:
+      - description: 初始化数据库参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.InitDB'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":0,"data":{},"msg":"自动创建数据库成功"}'
+          schema:
+            type: string
+      summary: 初始化用户数据库
+      tags:
+      - InitDB
+  /jwt/jsonInBlacklist:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"拉黑成功"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: jwt加入黑名单
+      tags:
+      - Jwt
+  /niepan/questions:
+    get:
+      parameters:
+      - description: 对应涅槃知识点，使用 , 分割。示例：JavaScript,js简介,简介,JS有什么作用
+        in: query
+        name: point
+        required: true
+        type: string
+      - description: 所在页面 默认值：1
+        in: query
+        name: page
+        type: string
+      - description: 分页大小 默认值：1
+        in: query
+        name: size
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: response.GetQuestions2NiepanResponse}'
+          schema:
+            $ref: '#/definitions/response.GetQuestions2NiepanResponse'
+      summary: 根据知识点获取题目 - 用于涅槃
+      tags:
+      - Niepan
+  /oauth/ourspark:
+    get:
+      parameters:
+      - description: code
+        in: query
+        name: code
+        required: true
+        type: string
+      summary: OAuth 登录
+      tags:
+      - OAuth
+  /questions/answer/:id:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户答题id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: response.QuestionResultResponse}'
+          schema:
+            $ref: '#/definitions/response.QuestionResultResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 查询问题答题情况
+      tags:
+      - Questions
+  /questions/question/:id:
+    get:
+      parameters:
+      - description: 问题id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: response.AddQuestionResponse}'
+          schema:
+            $ref: '#/definitions/response.AddQuestionResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 查询某个问题
+      tags:
+      - Questions
+  /questions/random:
+    post:
+      parameters:
+      - description: 章节id列表
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.GetQuestionByChaptersRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: response.RandomQuestionResponse}'
+          schema:
+            $ref: '#/definitions/response.RandomQuestionResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 根据章节随机推荐题目
+      tags:
+      - Questions
+  /questions/submit:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 答案
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.Answer'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 提交某个问题答案
+      tags:
+      - Questions
+  /tags:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: GetTagsResponse}'
+          schema:
+            $ref: '#/definitions/v1.GetTagsResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取所有标签
+      tags:
+      - Tag
+  /test/just4test:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code": 0, "data": {}, "msg": "just4test"}'
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: HelloWorld
+      tags:
+      - Home
+  /user:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: response.SysUserResponse}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 获取用户信息
+      tags:
+      - SysUser
+  /user/DeleteQuestionFromWrongQuestionBook:
+    delete:
+      parameters:
+      - description: 问题id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'response.Response{data: response.DelQuestionFromQuestionBook}'
+          schema:
+            $ref: '#/definitions/response.DelQuestionFromQuestionBook'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除错题
+      tags:
+      - SysUser
+  /user/WrongQuestion:
+    get:
+      parameters:
+      - description: 所在页面 默认值：1
+        in: query
+        name: page
+        type: string
+      - description: 分页大小 默认值：10
+        in: query
+        name: size
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'model.Response{data: response.GetQuestionHistoryResponse}'
+          schema:
+            $ref: '#/definitions/response.GetQuestionHistoryResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 查询用户错题历史
+      tags:
+      - SysUser
+  /user/changePassword:
+    put:
+      parameters:
+      - description: 用户名, 原密码, 新密码
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.ChangePasswordStruct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"修改成功"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 用户修改密码
+      tags:
+      - SysUser
+  /user/exams:
+    get:
+      parameters:
+      - description: 所在页面 默认值：1
+        in: query
+        name: page
+        type: string
+      - description: 分页大小 默认值：10
+        in: query
+        name: size
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'model.Response{data: response.GetExamHistoryResponse}'
+          schema:
+            $ref: '#/definitions/response.GetExamHistoryResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 查询用户考试历史
+      tags:
+      - SysUser
+  /user/questions:
+    get:
+      parameters:
+      - description: 所在页面 默认值：1
+        in: query
+        name: page
+        type: string
+      - description: 分页大小 默认值：10
+        in: query
+        name: size
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'model.Response{data: response.GetQuestionHistoryResponse}'
+          schema:
+            $ref: '#/definitions/response.GetQuestionHistoryResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 查询用户做题历史
+      tags:
+      - SysUser
+  /user/register:
+    post:
+      parameters:
+      - description: 用户名, 昵称, 密码, 角色ID
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.SysUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"注册成功"}'
+          schema:
+            type: string
+      summary: 用户注册账号
+      tags:
+      - Base
+  /user/setUserInfo:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID, 用户名, 昵称, 头像链接
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.SysUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"设置成功"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 设置用户信息
+      tags:
+      - SysUser
+  /xapi/new:
+    post:
+      parameters:
+      - description: 学习行为数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.XAPIData'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code": 0, "data": {}, "msg": "success"}'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 学习行为数据
+      tags:
+      - xAPI
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: x-token
+    type: apiKey
+swagger: "2.0"

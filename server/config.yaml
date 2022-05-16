@@ -1,0 +1,47 @@
+captcha:
+  img-height: 80
+  img-width: 240
+  key-long: 6
+jwt:
+  buffer-time: 86400
+  expires-time: 604800
+  signing-key: exam
+local:
+  path: uploads/file
+mysql:
+  config: charset=utf8mb4&parseTime=True&loc=Local
+  db-name: exam
+  log-mode: false
+  log-zap: ""
+  max-idle-conns: 10
+  max-open-conns: 100
+  password: UKpvLEjSZMmeY1qQhaNO
+  path: 127.0.0.1:3308
+  username: exam
+mongo:
+  uri: "mongodb://daima:d8fk2xOvwDoHBiZRuC3X@127.0.0.1:27017/?authSource=daima"
+  db-name: 'daima'
+redis:
+  addr: 127.0.0.1:6380
+  db: 0
+  password: "pWDxm&*aCThP&v6h"
+system:
+  addr: 5000
+  db-type: mysql
+  env: public
+  oss-type: local
+  use-multipoint: false
+zap:
+  director: log
+  encode-level: LowercaseColorLevelEncoder
+  format: console
+  level: info
+  link-name: latest_log
+  log-in-console: true
+  prefix: '[ONLINE-EXAM]'
+  show-line: true
+  stacktrace-key: stacktrace
+oauth:
+  ourspark-appid: exam
+  ourspark-secret: JC5wDl7xUvQZygV0XM23
+  ourspark-base-url: https://oauth.staging.feel.ac.cn:8443

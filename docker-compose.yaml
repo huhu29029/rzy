@@ -1,0 +1,31 @@
+version: "3"
+
+networks:
+  data:
+    external:
+      name: data
+  storage:
+    external: 
+      name: storage
+  db:
+    external: 
+      name: db
+  default:
+    driver: bridge
+
+
+services:
+
+  server:
+    image: docker.internal.feel.ac.cn:8443/online-exam/server:${CI_COMMIT_SHORT_SHA}
+    hostname: online-exam.web
+    container_name: online-exam-server
+    env_file: .env
+    restart: always
+    ports:
+      - '5000:5000'
+    networks:
+      default:
+      data:
+      db:
+      storage:  

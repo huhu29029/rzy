@@ -1,0 +1,91 @@
+stages:
+  - build
+  - deploy
+
+build:server:
+  stage: build
+  tags:
+    - bash_builder
+  script:
+    - docker login -u git -p $REGISTRY_PASSWORD docker.internal.feel.ac.cn
+    - docker build -t docker.internal.feel.ac.cn/online-exam/server:$CI_COMMIT_SHORT_SHA -f dockerfile_server .
+    - docker push docker.internal.feel.ac.cn/online-exam/server:$CI_COMMIT_SHORT_SHA
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+deploy:web-dev:
+  stage: deploy
+  image: node:12
+  tags:
+    - docker_builder
+  script:
+    - node -v
+    - cd web
+    - cp $env_dev .env
+    - npm config set registry https://registry.npm.taobao.org
+    - npm config set sass_binary_site http://cdn.npm.taobao.org/dist/node-sass -g
+    - npm i
+    - npm run build
+    - npx @getmeli/cli upload --url https://meli.staging.feel.ac.cn --site $MELI_PREVIEW_SITE --token $MELI_PREVIEW_TOKEN --branch preview -r $CI_COMMIT_SHORT_SHA ./dist
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+  environment:
+    name: devlopment_web
+    url: https://exam.dev.feel.ac.cn/
+
+deploy:server-dev:
+  stage: deploy
+  tags:
+    - dev
+  script:
+    - cp $env_dev .env
+    - docker login -u git -p $REGISTRY_PASSWORD docker.internal.feel.ac.cn
+    - docker-compose pull
+    - docker-compose down || exit_code=$?
+    - if [ $exit_code -ne 0 ]; then echo "new to start"; fi; 
+    - docker-compose up -d;
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+  environment:
+    name: devlopment_server
+    url: http://online-exam-$CI_ENVIRONMENT_SLUG.web
+
+deploy:web-prod:
+  stage: deploy
+  image: node:12
+  when: manual
+  only:
+    - master
+  tags:
+    - docker_builder
+  script:
+    - cd web
+    - cp $env_prod .env
+    - npm config set registry https://registry.npm.taobao.org
+    - npm config set sass_binary_site http://cdn.npm.taobao.org/dist/node-sass -g
+    - npm i
+    - npm run build
+    - npx @getmeli/cli upload --url https://meli.feel.ac.cn --site $MELI_PREVIEW_SITE_PROD --token $MELI_PREVIEW_TOKEN_PROD --branch preview -r $CI_COMMIT_SHORT_SHA ./dist
+  environment:
+    name: prod_web
+    url: https://exam.feel.ac.cn/
+
+deploy:server-prod:
+  stage: deploy
+  variables:
+    GIT_CLONE_PATH: /mnt/datadisk0/data/staging/$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME-$CI_ENVIRONMENT_NAME
+  when: manual
+  only:
+    - master
+  tags:
+    - production
+  script:
+    - cp $env_prod .env
+    - docker login -u git -p $REGISTRY_PASSWORD docker.internal.feel.ac.cn:8443
+    - docker-compose pull
+    - docker-compose down || exit_code=$?
+    - if [ $exit_code -ne 0 ]; then echo "new to start"; fi;
+    - docker-compose up -d;
+  environment:
+    name: prod_server
+    url: http://online-exam-$CI_ENVIRONMENT_SLUG.web
